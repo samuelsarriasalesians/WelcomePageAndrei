@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Enlaces</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS file -->
+</head>
+<body>
+    <div class="container">
+        <div class="content-box">
+            <img src="assets/logo_andrei.png" alt="Logo" class="logo">
+            <a href="mailto:3467716535.ru@gmail.com?body=Hola%20Andrei" target="_blank">
+                <img src="assets/email_icon.png" alt="Email"> Email
+            </a>
+            <a href="https://api.whatsapp.com/send/?phone=34677165315&text&type=phone_number&app_absent=0" target="_blank">
+                <img src="assets/whatsApp_icon.png" alt="WhatsApp"> WhatsApp
+            </a>
+        </div>
+    </div>
+    <body onclick="hideCard(event)">
+        <button class="button" onclick="showCard(event)"></button>
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <!-- Parte delantera -->
+                </div>
+                <div class="card-back">
+                    <!-- Parte trasera -->
+                </div>
+            </div>
+        </div>
+        <script>
+            function showCard(event) {
+                event.stopPropagation();
+                document.querySelector('.card').classList.add('show-card');
+                document.querySelector('.button').style.display = 'none';
+            }
+            function hideCard(event) {
+                if (!event.target.closest('.card')) {
+                    document.querySelector('.card').classList.remove('show-card');
+                    document.querySelector('.button').style.display = 'block';
+                }
+            }
+            document.querySelector('.card').addEventListener('click', function(event) {
+                event.stopPropagation();
+                this.classList.toggle('is-flipped');
+            });
+        </script>
+    </body>
+    
+</body>
+
+</html>
