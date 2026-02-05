@@ -11,7 +11,7 @@ body {
     font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
     background-color: var(--bg-sand);
     /* Líneas arquitectónicas sutiles */
-    background-image: 
+    background-image:
         linear-gradient(var(--grid-color) 0.5px, transparent 0.5px),
         linear-gradient(90deg, var(--grid-color) 0.5px, transparent 0.5px);
     background-size: 40px 40px;
@@ -58,7 +58,62 @@ body {
     perspective: 1200px;
     margin: 0 auto;
     cursor: pointer;
+    position: relative; /* para el hint */
 }
+
+/* ====== HINT SUTIL: “tap me” (solo en FRONT) ====== */
+/* Micro-flotación + respiración (muy discreto) */
+.card:not(.is-flipped) {
+    animation: cardHintFloat 2.6s ease-in-out infinite;
+    transform-origin: 50% 60%;
+}
+
+/* Un highlight muy suave en el borde (sutil, no “glow”) */
+.card:not(.is-flipped)::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 14px;
+    pointer-events: none;
+    opacity: 0;
+    /* borde interno suave con el oro corporativo */
+    box-shadow:
+        0 0 0 1px rgba(212, 175, 55, 0.25),
+        0 8px 22px rgba(212, 175, 55, 0.08);
+    animation: cardHintPulse 2.6s ease-in-out infinite;
+}
+
+/* Al tocar, respuesta inmediata */
+.card:active {
+    transform: scale(0.995);
+}
+
+/* Desactivar hint cuando se gira */
+.card.is-flipped,
+.card.is-flipped::after {
+    animation: none !important;
+}
+
+/* Animaciones del hint */
+@keyframes cardHintFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+}
+
+@keyframes cardHintPulse {
+    0%, 100% { opacity: 0; }
+    35% { opacity: 0.55; }
+    60% { opacity: 0.25; }
+}
+
+/* Respeto a accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+    .card:not(.is-flipped),
+    .card:not(.is-flipped)::after {
+        animation: none !important;
+    }
+}
+/* ====== FIN HINT ====== */
 
 .card-inner {
     position: relative;
@@ -202,4 +257,3 @@ body {
 }
 
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
