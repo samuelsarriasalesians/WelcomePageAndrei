@@ -121,16 +121,16 @@ body {
     text-decoration: none;
     background: none;
     border: none;
-    padding: 8px;
+    padding: 10px 5px;
     flex: 1;
-    gap: 4px;
-    font-size: 10px;
-    font-weight: 600;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
     color: var(--text-muted);
     transition: all 0.2s;
     position: relative;
     overflow: hidden;
-    border-radius: 16px;
+    border-radius: 18px;
 }
 
 /* Destacar Acciones Principales */
@@ -140,14 +140,30 @@ body {
 }
 
 .nav-item.primary img, .nav-item.primary svg {
-    transform: scale(1.1);
     stroke: var(--primary);
+    stroke-width: 2.5; /* Más grosor */
 }
 
 .nav-item img, .nav-item svg {
-    width: 22px;
-    height: 22px;
+    width: 28px; /* Tamaño aumentado de 22px a 28px */
+    height: 28px;
     stroke: var(--text-muted);
+    stroke-width: 2;
+    transition: transform 0.2s;
+}
+
+/* Estilo especial para Compartir como en la imagen */
+.nav-item.share-action {
+    border: 2px solid #000;
+    border-radius: 25px;
+    margin-left: 5px;
+    color: #000;
+}
+
+.nav-item.share-action svg {
+    stroke: #000;
+    width: 30px;
+    height: 30px;
 }
 
 .nav-item:active {
