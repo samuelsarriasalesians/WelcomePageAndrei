@@ -217,3 +217,31 @@ body {
 }
 
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ===== HINT: Mini amago de giro (tap hint) ===== */
+
+/* Animación sutil solo cuando está en front */
+.card:not(.is-flipped) .card-inner {
+    animation: cardFlipHint 3.2s ease-in-out infinite;
+    transform-origin: center;
+}
+
+/* Cuando el usuario gira la tarjeta → se apaga el hint */
+.card.is-flipped .card-inner {
+    animation: none;
+}
+
+/* Mini giro físico muy leve */
+@keyframes cardFlipHint {
+    0%   { transform: rotateY(0deg); }
+    40%  { transform: rotateY(8deg); }
+    55%  { transform: rotateY(8deg); }
+    100% { transform: rotateY(0deg); }
+}
+
+/* Accesibilidad: si el usuario reduce animaciones */
+@media (prefers-reduced-motion: reduce) {
+    .card:not(.is-flipped) .card-inner {
+        animation: none;
+    }
+}
