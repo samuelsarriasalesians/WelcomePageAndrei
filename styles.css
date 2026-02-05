@@ -10,7 +10,6 @@
 body {
     font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
     background-color: var(--bg-sand);
-    /* Líneas arquitectónicas sutiles */
     background-image:
         linear-gradient(var(--grid-color) 0.5px, transparent 0.5px),
         linear-gradient(90deg, var(--grid-color) 0.5px, transparent 0.5px);
@@ -58,69 +57,44 @@ body {
     perspective: 1200px;
     margin: 0 auto;
     cursor: pointer;
-    position: relative; /* para el hint */
+    position: relative;
+    border: none;
+    background: transparent;
+
+    /* IMPORTANTÍSIMO: el hint va aquí, NO en .card-inner */
+    will-change: transform;
 }
 
-/* ====== HINT SUTIL: “tap me” (solo en FRONT) ====== */
-/* Micro-flotación + respiración (muy discreto) */
+/* HINT: mini “amago” de que se gira (NO toca el flip real) */
 .card:not(.is-flipped) {
-    animation: cardHintFloat 2.6s ease-in-out infinite;
-    transform-origin: 50% 60%;
+    animation: cardTapHint 3.2s ease-in-out infinite;
+    transform-origin: 50% 55%;
 }
 
-/* Un highlight muy suave en el borde (sutil, no “glow”) */
-.card:not(.is-flipped)::after {
-    content: "";
-    position: absolute;
-    inset: -2px;
-    border-radius: 14px;
-    pointer-events: none;
-    opacity: 0;
-    /* borde interno suave con el oro corporativo */
-    box-shadow:
-        0 0 0 1px rgba(212, 175, 55, 0.25),
-        0 8px 22px rgba(212, 175, 55, 0.08);
-    animation: cardHintPulse 2.6s ease-in-out infinite;
+/* Cuando está flipped, el hint se apaga */
+.card.is-flipped {
+    animation: none;
 }
 
-/* Al tocar, respuesta inmediata */
-.card:active {
-    transform: scale(0.995);
+@keyframes cardTapHint {
+    0%   { transform: rotateY(0deg); }
+    40%  { transform: rotateY(7deg); }
+    55%  { transform: rotateY(7deg); }
+    100% { transform: rotateY(0deg); }
 }
 
-/* Desactivar hint cuando se gira */
-.card.is-flipped,
-.card.is-flipped::after {
-    animation: none !important;
-}
-
-/* Animaciones del hint */
-@keyframes cardHintFloat {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-4px); }
-}
-
-@keyframes cardHintPulse {
-    0%, 100% { opacity: 0; }
-    35% { opacity: 0.55; }
-    60% { opacity: 0.25; }
-}
-
-/* Respeto a accesibilidad */
 @media (prefers-reduced-motion: reduce) {
-    .card:not(.is-flipped),
-    .card:not(.is-flipped)::after {
-        animation: none !important;
-    }
+    .card:not(.is-flipped) { animation: none !important; }
 }
-/* ====== FIN HINT ====== */
 
+/* Flip REAL (solo aquí) */
 .card-inner {
     position: relative;
     width: 100%;
     height: 100%;
     transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
     transform-style: preserve-3d;
+    will-change: transform;
 }
 
 .card.is-flipped .card-inner {
@@ -196,29 +170,15 @@ body {
 
 .nav-item.primary img, .nav-item.primary svg {
     stroke: var(--primary);
-    stroke-width: 2.5; /* Más grosor */
+    stroke-width: 2.5;
 }
 
 .nav-item img, .nav-item svg {
-    width: 28px; /* Tamaño aumentado de 22px a 28px */
+    width: 28px;
     height: 28px;
     stroke: var(--text-muted);
     stroke-width: 2;
     transition: transform 0.2s;
-}
-
-/* Estilo especial para Compartir como en la imagen */
-.nav-item.share-action {
-    border: 2px solid #000;
-    border-radius: 25px;
-    margin-left: 5px;
-    color: #000;
-}
-
-.nav-item.share-action svg {
-    stroke: #000;
-    width: 30px;
-    height: 30px;
 }
 
 .nav-item:active {
@@ -257,31 +217,3 @@ body {
 }
 
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-/* ===== HINT: Mini amago de giro (tap hint) ===== */
-
-/* Animación sutil solo cuando está en front */
-.card:not(.is-flipped) .card-inner {
-    animation: cardFlipHint 3.2s ease-in-out infinite;
-    transform-origin: center;
-}
-
-/* Cuando el usuario gira la tarjeta → se apaga el hint */
-.card.is-flipped .card-inner {
-    animation: none;
-}
-
-/* Mini giro físico muy leve */
-@keyframes cardFlipHint {
-    0%   { transform: rotateY(0deg); }
-    40%  { transform: rotateY(8deg); }
-    55%  { transform: rotateY(8deg); }
-    100% { transform: rotateY(0deg); }
-}
-
-/* Accesibilidad: si el usuario reduce animaciones */
-@media (prefers-reduced-motion: reduce) {
-    .card:not(.is-flipped) .card-inner {
-        animation: none;
-    }
-}
