@@ -1,25 +1,29 @@
 :root {
-    --primary: #FFD700;
-    --bg-light: #f5f5dc;
-    --bg-dark: #121212;
-    --glass: rgba(255, 255, 255, 0.15);
-    --glass-border: rgba(255, 255, 255, 0.3);
-    --text-light: #333;
-    --text-dark: #eee;
+    --primary: #d4af37; /* Oro cálido arquitectónico */
+    --bg-sand: #fdfcf8; /* Arena claro editorial */
+    --grid-color: rgba(0, 0, 0, 0.06);
+    --text-main: #2a2a2a;
+    --text-muted: #7a7a7a;
+    --glass-white: rgba(255, 255, 255, 0.7);
 }
 
 body {
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+    background-color: var(--bg-sand);
+    /* Líneas arquitectónicas sutiles */
+    background-image: 
+        linear-gradient(var(--grid-color) 0.5px, transparent 0.5px),
+        linear-gradient(90deg, var(--grid-color) 0.5px, transparent 0.5px);
+    background-size: 40px 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    height: 100dvh; /* Dynamic viewport height for mobile */
+    height: 100dvh;
     margin: 0;
-    overflow: hidden; /* No scroll */
-    background: linear-gradient(135deg, #1e1e1e, #121212);
-    color: var(--text-dark);
+    overflow: hidden;
+    color: var(--text-main);
 }
 
 .container {
@@ -28,199 +32,39 @@ body {
     max-width: 400px;
     width: 100%;
     position: relative;
-    z-index: 1;
-    animation: fadeIn 0.8s ease-out;
+    z-index: 10;
 }
 
 .content-box {
-    background: var(--glass);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid var(--glass-border);
-    border-radius: 24px;
-    padding: 30px 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    padding: 20px;
+    animation: slideUp 1s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .logo {
-    width: 120px;
-    margin-bottom: 30px;
-    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.3));
+    width: 110px;
+    margin-bottom: 40px;
+    opacity: 0.9;
 }
 
-/* Scan Animation Overlay */
-.scan-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #000;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.5s ease;
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.scan-line {
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    background: var(--primary);
-    box-shadow: 0 0 15px var(--primary), 0 0 30px var(--primary);
-    top: 0;
-    animation: scanMove 1.2s ease-in-out infinite;
-}
-
-@keyframes scanMove {
-    0% { top: 0%; opacity: 0; }
-    20% { opacity: 1; }
-    80% { opacity: 1; }
-    100% { top: 100%; opacity: 0; }
-}
-
-/* Bottom Navigation */
-.bottom-nav {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% - 40px);
-    max-width: 400px;
-    background: rgba(30, 30, 30, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    display: flex;
-    justify-content: space-around;
-    padding: 12px 5px;
-    box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.3);
-    z-index: 100;
-}
-
-.nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    color: #fff;
-    background: none;
-    border: none;
-    padding: 8px;
-    flex: 1;
-    gap: 4px;
-    font-size: 10px;
-    transition: transform 0.2s, opacity 0.2s;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden; /* Ripple boundary */
-}
-
-/* Ripple Effect */
-.ripple {
-    position: absolute;
-    border-radius: 50%;
-    transform: scale(0);
-    animation: rippleEffect 0.6s linear;
-    background-color: rgba(255, 215, 0, 0.4);
-    pointer-events: none;
-}
-
-@keyframes rippleEffect {
-    to {
-        transform: scale(4);
-        opacity: 0;
-    }
-}
-
-/* Toast Notification */
-.toast {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-20px);
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    padding: 12px 24px;
-    border-radius: 30px;
-    font-size: 14px;
-    z-index: 10000;
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    pointer-events: none;
-    border: 1px solid var(--primary);
-}
-
-.toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-
-/* Accessibility & Touch Targets */
-.nav-item, .button {
-    min-width: 48px;
-    min-height: 48px;
-}
-
-.nav-item:active {
-    transform: scale(0.92);
-    opacity: 0.7;
-}
-
-.nav-item img, .nav-item svg {
-    width: 24px;
-    height: 24px;
-    stroke: var(--primary);
-}
-
-.nav-item span {
-    font-weight: 500;
-    color: #aaa;
-}
-
-/* Card Improvements */
-.card-trigger-wrapper {
-    margin: 20px 0;
-}
-
-.button {
-    background: url('assets/VCardFront.jpg') no-repeat center center;
-    background-size: cover;
-    width: 60px;
-    height: 60px;
-    border-radius: 12px;
-    border: 2px solid var(--primary);
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
+/* Tarjeta Estilo Physical Wallet */
 .card {
-    width: 300px;
-    height: 180px;
-    perspective: 1000px;
-    display: none;
-    margin: 20px auto;
-}
-
-.show-card {
-    display: block;
-    animation: scaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-@keyframes scaleIn {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+    width: 320px;
+    height: 190px;
+    perspective: 1200px;
+    margin: 0 auto;
+    cursor: pointer;
 }
 
 .card-inner {
     position: relative;
     width: 100%;
     height: 100%;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
     transform-style: preserve-3d;
 }
 
@@ -233,8 +77,9 @@ body {
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(0,0,0,0.03);
 }
 
 .card-front {
@@ -248,24 +93,97 @@ body {
     transform: rotateY(180deg);
 }
 
-@media (prefers-color-scheme: light) {
-    :root {
-        --glass: rgba(255, 255, 255, 0.7);
-        --glass-border: rgba(0, 0, 0, 0.1);
-        --text-dark: #121212;
-    }
-    body {
-        background: linear-gradient(135deg, #f5f5dc, #e0e0d1);
-    }
-    .bottom-nav {
-        background: rgba(255, 255, 255, 0.85);
-        border: 1px solid rgba(0, 0, 0, 0.05);
-    }
-    .nav-item span { color: #555; }
+/* Barra Inferior Premium Wallet */
+.bottom-nav {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 40px);
+    max-width: 400px;
+    background: var(--glass-white);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    z-index: 100;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    background: none;
+    border: none;
+    padding: 8px;
+    flex: 1;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
 }
+
+/* Destacar Acciones Principales */
+.nav-item.primary {
+    color: var(--text-main);
+    background: rgba(0,0,0,0.03);
+}
+
+.nav-item.primary img, .nav-item.primary svg {
+    transform: scale(1.1);
+    stroke: var(--primary);
+}
+
+.nav-item img, .nav-item svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--text-muted);
+}
+
+.nav-item:active {
+    transform: scale(0.95);
+    background: rgba(0,0,0,0.05);
+}
+
+/* Microinteracciones */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: rippleEffect 0.6s ease-out;
+    background-color: rgba(0, 0, 0, 0.05);
+    pointer-events: none;
+}
+
+@keyframes rippleEffect {
+    to { transform: scale(4); opacity: 0; }
+}
+
+/* Toast */
+.toast {
+    position: fixed;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background: #2a2a2a;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-size: 13px;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1000;
+}
+
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 

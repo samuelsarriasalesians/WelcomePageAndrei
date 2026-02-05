@@ -6,33 +6,19 @@ const vCardData = {
 };
 
 /**
- * Muestra la tarjeta con animación
- */
-function showCard(event) {
-    if (event) event.stopPropagation();
-    const card = document.querySelector('.card');
-    const btn = document.querySelector('.button');
-    if (card) {
-        card.classList.add('show-card');
-        hapticFeedback(15);
-    }
-    if (btn) btn.style.display = 'none';
-}
-
-/**
- * Alterna el giro de la tarjeta
+ * Alterna el giro de la tarjeta (Flip 3D)
  */
 function toggleFlip(event) {
     if (event) event.stopPropagation();
     const card = document.querySelector('.card');
     if (card) {
         card.classList.toggle('is-flipped');
-        hapticFeedback(10);
+        hapticFeedback(15);
     }
 }
 
 /**
- * Feedback háptico (vibración)
+ * Feedback háptico refinado
  */
 function hapticFeedback(ms = 10) {
     if (navigator.vibrate) {
@@ -41,10 +27,10 @@ function hapticFeedback(ms = 10) {
 }
 
 /**
- * Genera y descarga el archivo vCard
+ * Genera y descarga el archivo vCard sin librerías
  */
 function downloadVCard() {
-    hapticFeedback(20);
+    hapticFeedback(25);
     const vcard = `BEGIN:VCARD
 VERSION:3.0
 FN:${vCardData.name}
@@ -62,7 +48,7 @@ END:VCARD`;
 }
 
 /**
- * API de compartir nativa o fallback
+ * API de compartir nativa (Web Share API)
  */
 async function shareProfile() {
     hapticFeedback(20);
@@ -80,9 +66,12 @@ async function shareProfile() {
     }
 }
 
+/**
+ * Copiar al portapapeles con Toast
+ */
 function copyToClipboard() {
     navigator.clipboard.writeText(window.location.href).then(() => {
-        showToast('Enlace copiado al portapapeles');
+        showToast('Enlace copiado');
     });
 }
 
@@ -94,12 +83,12 @@ function showToast(message) {
     setTimeout(() => toast.classList.add('show'), 100);
     setTimeout(() => {
         toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 300);
-    }, 3000);
+        setTimeout(() => toast.remove(), 400);
+    }, 2500);
 }
 
 /**
- * Efecto Ripple para botones
+ * Efecto Ripple discreto
  */
 function createRipple(event) {
     const button = event.currentTarget;
@@ -120,19 +109,10 @@ function createRipple(event) {
     button.appendChild(ripple);
 }
 
-// Inicialización
+// Inicialización mobile-ready
 document.addEventListener('DOMContentLoaded', () => {
-    // Quitar overlay de escaneo
-    setTimeout(() => {
-        const overlay = document.querySelector('.scan-overlay');
-        if (overlay) {
-            overlay.style.opacity = '0';
-            setTimeout(() => overlay.remove(), 500);
-        }
-    }, 1500);
-
-    // Asignar eventos ripple
-    document.querySelectorAll('.nav-item, .button').forEach(btn => {
+    // Eventos Ripple para toda la barra inferior
+    document.querySelectorAll('.nav-item').forEach(btn => {
         btn.addEventListener('click', createRipple);
     });
 });
